@@ -1,0 +1,90 @@
+Index: commonheaders.h
+===================================================================
+--- commonheaders.h	(revision 368)
++++ commonheaders.h	(working copy)
+@@ -41,28 +43,29 @@
+ #include "notifiers.h"
+ //#include "birthdays.h"
+ 
+-#include "../../../include/newpluginapi.h"
+-#include "../../../include/m_database.h"
+-#include "../../../include/m_system.h"
+-#include "../../../include/m_skin.h"
+-#include "../../../include/m_options.h"
+-#include "../../../include/m_clist.h"
+-#include "../../../include/m_langpack.h"
+-#include "../../../include/m_history.h"
+-#include "../../../include/m_contacts.h"
+-#include "../../../include/m_popup.h"
++#include "win2k.h"
++#include "newpluginapi.h"
++#include "m_database.h"
++#include "m_system.h"
++#include "m_skin.h"
++#include "m_options.h"
++#include "m_clist.h"
++#include "m_langpack.h"
++#include "m_history.h"
++#include "m_contacts.h"
++#include "m_popup.h"
+ //#include "../../../include/m_popupw.h"
+-#include "../../../include/m_fontservice.h"
+-#include "../../../include/m_utils.h"
+-#include "../../../include/m_icolib.h"
+-#include "../../../include/m_cluiframes.h"
+-#include "../../../include/m_clui.h"
+-#include "../../../include/m_protosvc.h"
+-#include "sdk/m_toptoolbar.h"
+-#include "sdk/m_metacontacts.h"
+-#include "../../../include/m_message.h"
+-#include "sdk/m_updater.h"
+-#include "sdk/m_extraicons.h"
++#include "m_fontservice.h"
++#include "m_utils.h"
++#include "m_icolib.h"
++#include "m_cluiframes.h"
++#include "m_clui.h"
++#include "m_protosvc.h"
++#include "m_toptoolbar.h"
++#include "m_metacontacts.h"
++#include "m_message.h"
++#include "m_updater.h"
++#include "m_extraicons.h"
+ 
+ extern char ModuleName[];
+ extern HINSTANCE hInstance;
+Index: services.cpp
+===================================================================
+--- services.cpp	(revision 368)
++++ services.cpp	(working copy)
+@@ -264,7 +264,9 @@
+ 	OPENFILENAME of = {0};
+ 	of.lStructSize = sizeof(OPENFILENAME);
+ 	//of.hInstance = hInstance;
+-	of.lpstrFilter = _T("Birthdays files (*") _T(BIRTHDAY_EXTENSION) _T(")\0*") _T(BIRTHDAY_EXTENSION) _T("\0");
++	TCHAR filter[MAX_PATH];
++	mir_sntprintf(filter, SIZEOF(filter), _T("%s (*") _T(BIRTHDAY_EXTENSION) _T(")%c*") _T(BIRTHDAY_EXTENSION) _T("%c"), TranslateT("Birthdays files"), 0, 0); 
++	of.lpstrFilter = filter;
+ 	of.lpstrFile = fileName;
+ 	of.nMaxFile = 1024;
+ 	of.lpstrTitle = TranslateT("Please select a file to import birthdays from ...");
+@@ -273,7 +275,7 @@
+ 	if (GetOpenFileName(&of))
+ 		{
+ 			TCHAR buffer[2048];
+-			_stprintf(buffer, TranslateT("Importing birthdays from file: %s"), fileName);
++			mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("Importing birthdays from file: %s"), fileName);
+ 			ShowPopupMessage(TranslateT("WhenWasIt"), buffer, hiImportBirthdays);
+ 			DoImport(fileName);
+ 			ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Done importing birthdays"), hiImportBirthdays);
+@@ -288,7 +290,9 @@
+ 	OPENFILENAME of = {0};
+ 	of.lStructSize = sizeof(OPENFILENAME);
+ 	//of.hInstance = hInstance;
+-	of.lpstrFilter = _T("Birthdays files (*") _T(BIRTHDAY_EXTENSION) _T(")\0*") _T(BIRTHDAY_EXTENSION) _T("\0All files (*.*)\0*.*\0");
++	TCHAR filter[MAX_PATH];
++	mir_sntprintf(filter, SIZEOF(filter), _T("%s (*") _T(BIRTHDAY_EXTENSION) _T(")%c*") _T(BIRTHDAY_EXTENSION) _T("%c%s (*.*)%c*.*%c"), TranslateT("Birthdays files"), 0, 0, TranslateT("All Files"), 0, 0); 
++	of.lpstrFilter = filter;
+ 	of.lpstrFile = fileName;
+ 	of.nMaxFile = 1024;
+ 	of.lpstrTitle = TranslateT("Please select a file to export birthdays to ...");

@@ -1,0 +1,37 @@
+--- C:/Users/xx/Documents/Visual Studio 2010/Projects/WhenWasIt/hooked_events.cpp	Fri Aug 26 22:39:49 2011
++++ C:/Users/xx/Documents/Visual Studio 2010/Projects/WhenWasIt_mod/hooked_events.cpp	Fri Aug 26 22:45:44 2011
+@@ -156,6 +156,24 @@
+ 	cl.hIcon = hiAddBirthdayContact;
+ 	cl.pszName = "Add/change user &birthday";
+ 	hmAddChangeBirthday = (HANDLE) CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) &cl);
++
++	if(ServiceExists(MS_HOTKEY_REGISTER))
++	{
++		HOTKEYDESC hotkey = {0};
++		hotkey.cbSize = sizeof(hotkey);
++		hotkey.dwFlags = HKD_TCHAR;
++		hotkey.ptszSection = LPGENT("Birthdays");
++
++		hotkey.pszName = "wwi_birthday_list";
++		hotkey.ptszDescription = LPGENT("Birthday list");
++		hotkey.pszService = MS_WWI_LIST_SHOW;
++		CallService(MS_HOTKEY_REGISTER,0,(LPARAM)&hotkey);
++		
++		hotkey.pszName = "wwi_check_birthdays";
++		hotkey.ptszDescription = LPGENT("Check for birthdays");
++		hotkey.pszService = MS_WWI_CHECK_BIRTHDAYS;
++		CallService(MS_HOTKEY_REGISTER,0,(LPARAM)&hotkey);
++	}
+ 	
+ 	return 0;
+ }
+--- C:/Users/xx/Documents/Visual Studio 2010/Projects/WhenWasIt/commonheaders.h	Fri Aug 26 22:42:06 2011
++++ C:/Users/xx/Documents/Visual Studio 2010/Projects/WhenWasIt_mod/commonheaders.h	Fri Aug 26 22:42:36 2011
+@@ -60,6 +60,7 @@
+ #include "m_cluiframes.h"
+ #include "m_clui.h"
+ #include "m_protosvc.h"
++#include "m_hotkeys.h"
+ #include "sdk/m_toptoolbar.h"
+ #include "sdk/m_metacontacts.h"
+ #include "m_message.h"

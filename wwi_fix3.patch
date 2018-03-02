@@ -1,0 +1,15 @@
+Index: hooked_events.cpp
+===================================================================
+--- hooked_events.cpp	(revision 372)
++++ hooked_events.cpp	(working copy)
+@@ -179,8 +179,8 @@
+ 	odp.position = 100000000;
+ 	odp.hInstance = hInstance;
+ 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_WWI);
+-	odp.ptszTitle = TranslateT("When Was It");
+-	odp.ptszGroup = TranslateT("Plugins");
++	odp.ptszTitle = _T("When Was It");
++	odp.ptszGroup = _T("Plugins");
+ 	odp.groupPosition = 910000000;
+ 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+ 	odp.pfnDlgProc = DlgProcOptions;

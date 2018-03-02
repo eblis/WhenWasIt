@@ -1,0 +1,13 @@
+Index: services.cpp
+===================================================================
+--- services.cpp	(revision 371)
++++ services.cpp	(working copy)
+@@ -275,7 +275,7 @@
+ 	if (GetOpenFileName(&of))
+ 		{
+ 			TCHAR buffer[2048];
+-			_stprintf(buffer, TranslateT("Importing birthdays from file: %s"), fileName);
++			mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("Importing birthdays from file: %s"), fileName);
+ 			ShowPopupMessage(TranslateT("WhenWasIt"), buffer, hiImportBirthdays);
+ 			DoImport(fileName);
+ 			ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Done importing birthdays"), hiImportBirthdays);
